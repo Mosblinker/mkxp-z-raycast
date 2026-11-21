@@ -1,4 +1,6 @@
-# mkxp-z
+# mkxp-z-raycast
+
+This is a fork of mkxp-z with a raycast 3D first person engine, like what was used in Wolfenstein 3D, that was bolted on to it. It can be set up to run in an event on the map for a first person 3D section. Why have a first person 3D section in a primarily 2D game? Because it'd be cool. Besides, a wise man once said "science isn't about why, it's about why not."
 
 <p align="center"><b>
   <a href="https://github.com/mkxp-z/mkxp-z/actions/workflows/autobuild.yml?query=event%3Apush">Automatic Builds</a>
