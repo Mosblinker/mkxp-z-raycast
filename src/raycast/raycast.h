@@ -91,4 +91,19 @@ Vec2 rotateVector(const Vec2 &vector, double r){
 	return Vec2(float(vector.x*c+vector.y*s),float(vector.x*-s+vector.y*c));
 }
 
+struct Line2D{
+	
+	double x1;
+	double y1;
+	double x2;
+	double y2;
+	
+	Line2D() : x1(0.0),y1(0.0),x2(0.0),y2(0.0) {}
+	
+	Line2D(double x1, double y1, double x2, double y2) : x1(x1),y1(y1),x2(x2),y2(y2) {}
+	
+	Line2D(const Line2D &line) : x1(line.x1),y1(line.y1),x2(line.x2),y2(line.y2) {}
+};
+
+
 #endif
