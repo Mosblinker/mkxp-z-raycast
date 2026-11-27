@@ -2,6 +2,7 @@
 #include <cmath>
 #include <cstdlib>
 #include "bitmap.h"
+#include <vector>
 #include <variant>
 
 #ifndef M_PI
@@ -357,6 +358,10 @@ RaycastLevelData::RaycastLevelData(int width, int height, int floorColor, int ce
 	h = height;
 	fColor = floorColor;
 	cColor = ceilingColor;
+	for (int y = 0; y < h; y++){
+		std::vector<int> mapRow;
+		mapRow.insert(mapRow.end(), w, 0);
+		map.push_back(mapRow);
 }
 
 int RaycastLevelData::width() const{
@@ -369,6 +374,17 @@ int RaycastLevelData::height() const{
 
 bool RaycastLevelData::contains(int x, int y) const{
 	return x >= 0 && x < w && y >= 0 && y < h;
+}
+
+int RaycastLevelData::get(int x, int y) const{
+	if (!contains(x,y))
+		return 1;
+	return map.at(y).at(x);
+}
+
+void RaycastLevelData::set(int x, int y, int value){
+	if (contains(x,y))
+		map.at(y).at(x) = value;
 }
 
 int RaycastLevelData::getFloorColor() const{

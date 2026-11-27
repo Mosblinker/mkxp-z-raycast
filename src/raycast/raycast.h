@@ -8,6 +8,7 @@
 #ifndef RAYCAST_H
 #define RAYCAST_H
 #include "bitmap.h"
+#include <vector>
 #include <variant>
 
 double floatMod(double a, double b);
@@ -225,6 +226,8 @@ class RaycastLevelData{
 		
 		// Map data
 		bool contains(int x, int y) const;
+		int get(int x, int y) const;
+		void set(int x, int y, int value);
 		DECL_ATTR(FloorColor, int);
 		void setFloorColor(unsigned char r, unsigned char g, unsigned char b);
 		DECL_ATTR(CeilingColor, int);
@@ -235,6 +238,7 @@ class RaycastLevelData{
 	private:
 		int w;
 		int h;
+		std::vector<std::vector<int>> map;
 		int fColor;
 		int cColor;
 };
