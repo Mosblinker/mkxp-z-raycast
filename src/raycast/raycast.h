@@ -50,4 +50,45 @@ Color changeBrightness(const Color &color, double brightness, bool hasAlpha = fa
 		return Color(0.0,0.0,0.0,a);
 	return Color(color.red*brightness,color.green*brightness,color.blue*brightness,a);
 }
+
+struct Vector2D{
+	
+	double x;
+	double y;
+	
+	Vector2D();
+	
+	Vector2D(double x, double y);
+	
+	Vector2D(const Vector2D &value);
+	
+	bool operator==(const Vector2D &value) const;
+	
+	bool operator!=(const Vector2D &value) const;
+	
+	Vector2D &operator+=(const Vector2D &value);
+	
+	Vector2D &operator-=(const Vector2D &value);
+	
+	Vector2D &operator*=(const Vector2D &value);
+	
+	Vector2D &operator/=(const Vector2D &value);
+	
+	Vector2D operator+(const Vector2D &value) const;
+	
+	Vector2D operator-(const Vector2D &value) const;
+	
+	Vector2D operator*(const Vector2D &value) const;
+	
+	Vector2D operator/(const Vector2D &value) const;
+	
+	void rotate(double r);
+};
+
+Vec2 rotateVector(const Vec2 &vector, double r){
+	double s = sin(r);
+	double c = cos(r);
+	return Vec2(float(vector.x*c+vector.y*s),float(vector.x*-s+vector.y*c));
+}
+
 #endif
