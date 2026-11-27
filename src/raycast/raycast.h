@@ -105,5 +105,19 @@ struct Line2D{
 	Line2D(const Line2D &line) : x1(line.x1),y1(line.y1),x2(line.x2),y2(line.y2) {}
 };
 
+void drawLine(Bitmap &bitmap, double x1, double y1, double x2, double y2, const Vec4 &color);
+
+void drawLine(Bitmap &bitmap, double x1, double y1, double x2, double y2, const Color &color){
+	drawLine(bitmap,x1,y1,x2,y2,Vec4(color.red,color.green,color.blue,color.alpha));
+}
+
+void drawLine(Bitmap &bitmap, const Line2D &line, const Vec4 &color){
+	drawLine(bitmap,line.x1,line.y1,line.x2,line.y2,color);
+}
+
+void drawLine(Bitmap &bitmap, const Line2D &line, const Color &color){
+	drawLine(bitmap,line.x1,line.y1,line.x2,line.y2,color);
+}
+
 
 #endif
