@@ -236,3 +236,84 @@ virtual RaycastObject::RaycastObjectType type(){
 	return RAYCAST_OBJECT;
 }
 
+RaycastHit::RaycastHit(int x, int y, double dirX,double dirY,double distance){
+	this -> x = x;
+	this -> y = y;
+	this -> dX = dirX;
+	this -> dY = dirY;
+	this -> d = distance;
+}
+
+double RaycastHit::dirX() const{
+	return dX;
+}
+
+double RaycastHit::dirY() const{
+	return dY;
+}
+
+double RaycastHit::dirRad() const{
+	return atan2(dY,dX);
+}
+
+double RaycastHit::dirAngle() const{
+	return radiansToAngle(dirRad());
+}
+
+double RaycastHit::distance() const{
+	return d;
+}
+
+virtual RaycastHitType RaycastHit::type(){
+	return RAYCAST_HIT_ABSTRACT;
+}
+
+RaycastWallHit::RaycastWallHit(int x, int y, double dirX, double dirY, double distance, int side, int type) : RaycastHit(dirX,dirY,distance){
+	this -> x = x;
+	this -> y = y;
+	s = side;
+	t = type;
+}
+
+int RaycastWallHit::mapX() override{
+	return x;
+}
+
+int RaycastWallHit::mapY() override{
+	return y;
+}
+
+RaycastHitType RaycastWallHit::type() override{
+	return RAYCAST_HIT_WALL;
+}
+
+int RaycastWallHit::side() const{
+	return s;
+}
+
+int RaycastWallHit::wallType() const{
+	return t;
+}
+
+RaycastObjectHit::RaycastObjectHit(RaycastObject object,double dirX,double dirY,double distance) : RaycastHit(dirX,dirY,distance){
+	o = object;
+}
+
+RaycastObjectHit::~RaycastObjectHit()
+
+int RaycastObjectHit::mapX() override{
+	return o.mapX();
+}
+
+int RaycastObjectHit::mapY() override{
+	return o.mapY();
+}
+
+RaycastHitType RaycastObjectHit::type() override{
+	return RAYCAST_HIT_OBJECT;
+}
+
+RaycastObject RaycastObjectHit::object() const{
+	return o;
+}
+

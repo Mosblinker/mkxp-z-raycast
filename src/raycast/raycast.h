@@ -122,6 +122,12 @@ void drawLine(Bitmap &bitmap, const Line2D &line, const Color &color){
 enum RaycastObjectType{
 	RAYCAST_OBJECT
 };
+
+enum RaycastHitType{
+	RAYCAST_HIT_ABSTRACT = -1,
+	RAYCAST_HIT_WALL = 0,
+	RAYCAST_HIT_OBJECT = 1
+};
 /**
 	Base class for all objects and entities in a raycasted world.
 */
@@ -155,6 +161,61 @@ class RaycastObject{
 		Vector2D dir;
 		bool active;
 		double radius;
+};
+/**
+	Base class for raycast hits.
+*/
+class RaycastHit{
+	public:
+		RaycastHit(double dirX, double dirY, double distance);
+		
+		virtual int mapX() = 0;
+		virtual int mapY() = 0;
+		double dirX() const;
+		double dirY() const;
+		double dirRad() const;
+		double dirAngle() const;
+		double distance() const;
+		virtual RaycastHitType type();
+	
+	private:
+		double dX;
+		double dY;
+		double d;
+};
+
+class RaycastWallHit : public RaycastHit{
+	public:
+		RaycastWallHit(int x, int y, double dirX, double dirY, double distance, int side, int type = 1);
+		
+		int mapX() override;
+		int mapY() override;
+		RaycastHitType type() override;
+		int side() const;
+		int wallType() const;
+	
+	private:
+		int x;
+		int y;
+		int s;
+		int t;
+};
+
+class RaycastObjectHit : public RaycastHit{
+	public:
+		RaycastObjectHit(RaycastObject object, double dirX, double dirY, double distance);
+		~RaycastObjectHit();
+		
+		int mapX() override;
+		int mapY() override;
+		RaycastHitType type() override;
+		RaycastObject object() const;
+		
+	private:
+		double x;
+		double y;
+		RaycastObject o;
+};
 };
 
 #endif
