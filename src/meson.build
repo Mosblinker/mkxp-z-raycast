@@ -1286,6 +1286,8 @@ main_source = files(
     'net/LUrlParser.cpp',
     'net/net.cpp',
 
+    'raycast/raycast.cpp',
+
     host_system == 'darwin' ? 'system/systemImplApple.mm' : 'system/systemImpl.cpp',
 )
 
