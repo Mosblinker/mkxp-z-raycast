@@ -352,3 +352,49 @@ void RaycastTriggerLineData::reset(){
 	timer = 0.0;
 }
 
+RaycastLevelData::RaycastLevelData(int width, int height, int floorColor, int ceilingColor){
+	w = width;
+	h = height;
+	fColor = floorColor;
+	cColor = ceilingColor;
+}
+
+int RaycastLevelData::width() const{
+	return w;
+}
+
+int RaycastLevelData::height() const{
+	return h;
+}
+
+bool RaycastLevelData::contains(int x, int y) const{
+	return x >= 0 && x < w && y >= 0 && y < h;
+}
+
+int RaycastLevelData::getFloorColor() const{
+	return fColor;
+}
+
+void RaycastLevelData::setFloorColor(int color){
+	fColor = color;
+}
+
+void RaycastLevelData::setFloorColor(unsigned char r, unsigned char g, unsigned char b){
+	setFloorColor((int(r) << 16) | (int(g) << 8) | int(b));
+}
+
+int RaycastLevelData::getCeilingColor() const{
+	return cColor;
+}
+
+void RaycastLevelData::setCeilingColor(int color){
+	cColor = color;
+}
+
+void RaycastLevelData::setCeilingColor(unsigned char r, unsigned char g, unsigned char b){
+	setCeilingColor((int(r) << 16) | (int(g) << 8) | int(b));
+}
+
+void RaycastLevelData::reset(){
+}
+

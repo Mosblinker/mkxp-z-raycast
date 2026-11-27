@@ -213,6 +213,32 @@ class RaycastTriggerLineData{
 		double cooldown;
 		double timer;
 };
+/**
+	
+*/
+class RaycastLevelData{
+	public:
+		RaycastLevelData(int width, int height, int floorColor = 0, int ceilingColor = 0);
+		
+		int width() const;
+		int height() const;
+		
+		// Map data
+		bool contains(int x, int y) const;
+		DECL_ATTR(FloorColor, int);
+		void setFloorColor(unsigned char r, unsigned char g, unsigned char b);
+		DECL_ATTR(CeilingColor, int);
+		void setCeilingColor(unsigned char r, unsigned char g, unsigned char b);
+		
+		void reset();
+	
+	private:
+		int w;
+		int h;
+		int fColor;
+		int cColor;
+};
+
 
 
 #endif
