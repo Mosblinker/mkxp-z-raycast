@@ -168,9 +168,8 @@ struct RaycastWallHit{
 	int mapX;
 	int mapY;
 	int side;
-	int wallType;
-	RaycastWallHit(int x, int y,int side, int type) : mapX(x),mapY(y),side(side),wallType(type) {}
-	RaycastWallHit() : RaycastWallHit(0,0,0,1) {}
+	RaycastWallHit(int x, int y,int side, int type) : mapX(x),mapY(y),side(side) {}
+	RaycastWallHit() : RaycastWallHit(0,0,0) {}
 };
 /**
 	Struct for representing a wall or object that was hit by a raycast.
