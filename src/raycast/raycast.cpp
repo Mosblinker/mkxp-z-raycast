@@ -129,3 +129,110 @@ void drawLine(Bitmap &bitmap, double x1, double y1, double x2, double y2, const 
 	}
 }
 
+RaycastObject::RaycastObject(double x,double y,double dir,double radius){
+	this -> x = x;
+	this -> y = y;
+	this -> dir = Vector2D(1.0,0.0);
+	if (dir != 0.0 && floatMod(dir, M_2_PI) != 0.0)
+		this->dir.rotate(dir);
+	active = true;
+	this -> radius = radius;
+}
+
+RaycastObject::RaycastObject() : RaycastObject(0.0,0.0) {}
+
+RaycastObject::RaycastObject(const RaycastObject &obj): RaycastObject(obj.getX(),obj.getY(),0.0,obj.getRadius()){
+	dir.x = obj.getDirX();
+	dir.y = obj.getDirY();
+	this -> active = obj.getActive();
+}
+
+RaycastObject::~RaycastObject(){
+	
+}
+
+void RaycastObject::setX(double x){
+	this -> x = x;
+}
+
+double RaycastObject::getX() const{
+	return x;
+}
+
+void RaycastObject::setY(double y){
+	this -> y = y;
+}
+
+double RaycastObject::getY() const{
+	return y;
+}
+
+void RaycastObject::setPosition(double x, double y){
+	this -> x = x;
+	this -> y = y;
+}
+
+int RaycastObject::mapX(){
+	return int(x);
+}
+
+int RaycastObject::mapY(){
+	return int(y);
+}
+
+void RaycastObject::setDirX(double x){
+	dir.x = x;
+}
+
+double RaycastObject::getDirX() const{
+	return dir.x;
+}
+
+void RaycastObject::setDirY(double y){
+	dir.y = y;
+}
+
+double RaycastObject::getDirY() const{
+	return dir.y;
+}
+
+void RaycastObject::setDirRad(double rad){
+	rotate(getDirRad() - rad);
+}
+
+double RaycastObject::getDirRad() const{
+	return atan2(dir.y,dir.x);
+}
+
+void RaycastObject::setDirAngle(double angle){
+	setDirRad(angleToRadians(angle));
+}
+
+double RaycastObject::getDirAngle() const{
+	return radiansToAngle(getDirRad());
+}
+
+virtual void RaycastObject::rotate(double r){
+	dir.rotate(r);
+}
+
+void RaycastObject::setActive(bool value){
+	active = value;
+}
+
+bool RaycastObject::getActive() const{
+	return active;
+}
+
+void RaycastObject::setRadius(double value){
+	radius = value;
+}
+
+double RaycastObject::getRadius() const{
+	return radius;
+}
+
+virtual RaycastObject::RaycastObjectType type(){
+	return RAYCAST_OBJECT;
+}
+

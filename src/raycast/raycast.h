@@ -119,5 +119,42 @@ void drawLine(Bitmap &bitmap, const Line2D &line, const Color &color){
 	drawLine(bitmap,line.x1,line.y1,line.x2,line.y2,color);
 }
 
+enum RaycastObjectType{
+	RAYCAST_OBJECT
+};
+/**
+	Base class for all objects and entities in a raycasted world.
+*/
+class RaycastObject{
+	public:
+		RaycastObject();
+		RaycastObject(double x,double y,double dir = 0.0,double radius = 0.0);
+		RaycastObject(const RaycastObject &obj);
+		~RaycastObject();
+		
+		DECL_ATTR(X, double);
+		DECL_ATTR(Y, double);
+		DECL_ATTR(DirX, double);
+		DECL_ATTR(DirY, double);
+		DECL_ATTR(DirRad, double);
+		DECL_ATTR(DirAngle, double);
+		DECL_ATTR(Active, bool);
+		DECL_ATTR(Radius, double);
+		
+		void setPosition(double x, double y);
+		int mapX() const;
+		int mapY() const;
+		
+		virtual void rotate(double r);
+		
+		virtual RaycastObjectType type();
+		
+	private:
+		double x;
+		double y;
+		Vector2D dir;
+		bool active;
+		double radius;
+};
 
 #endif
