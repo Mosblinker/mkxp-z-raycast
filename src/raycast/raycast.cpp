@@ -245,3 +245,110 @@ double RaycastHit::dirAngle() const{
 	return radiansToAngle(dirRad());
 }
 
+RaycastTriggerLineData::RaycastTriggerLineData(Line2D line, int type, int tag, double cooldown){
+	this -> line = line;
+	this -> type = type;
+	this -> tag = tag;
+	this -> cooldown = cooldown;
+	interactable = 0;
+	timer = 0.0;
+}
+
+RaycastTriggerLineData::RaycastTriggerLineData(double x1, double y1, double x2, double y2, int type, int tag, double cooldown){
+	line = Line2D(x1,y1,x2,y2);
+	this -> type = type;
+	this -> tag = tag;
+	this -> cooldown = cooldown;
+	interactable = 0;
+	timer = 0.0;
+}
+
+void RaycastTriggerLineData::setLine(Line2D line){
+	this -> line = line;
+}
+
+void RaycastTriggerLineData::setLine(double x1, double y1, double x2, double y2){
+	line = Line2D(x1,y1,x2,y2);
+}
+
+Line2D RaycastTriggerLineData::getLine() const{
+	return line;
+}
+
+void RaycastTriggerLineData::setX1(double x1){
+	line.x1 = x1;
+}
+
+double RaycastTriggerLineData::getX1() const{
+	return line.x1;
+}
+
+void RaycastTriggerLineData::setY1(double y1){
+	line.y1 = y1;
+}
+
+double RaycastTriggerLineData::getY1() const{
+	return line.y1;
+}
+
+void RaycastTriggerLineData::setX2(double x2){
+	line.x2 = x2;
+}
+
+double RaycastTriggerLineData::getX2() const{
+	return line.x2;
+}
+
+void RaycastTriggerLineData::setY2(double y2){
+	line.y2 = y2;
+}
+
+double RaycastTriggerLineData::getY2() const{
+	return line.y2;
+}
+
+void RaycastTriggerLineData::setType(int type){
+	this -> type = type;
+}
+
+int RaycastTriggerLineData::getType() const{
+	return type;
+}
+
+void RaycastTriggerLineData::setTag(int tag){
+	this -> tag = tag;
+}
+
+int RaycastTriggerLineData::getTag() const{
+	return tag;
+}
+
+void RaycastTriggerLineData::setInteractable(int value){
+	interactable = value;
+}
+
+int RaycastTriggerLineData::getInteractable() const{
+	return interactable;
+}
+
+void RaycastTriggerLineData::setCooldownDuration(double duration){
+	cooldown = duration;
+}
+
+double RaycastTriggerLineData::getCooldownDuration() const{
+	return cooldown;
+}
+
+void RaycastTriggerLineData::setCooldownTimer(double value){
+	timer = value;
+}
+
+double RaycastTriggerLineData::getCooldownTimer() const{
+	return timer;
+}
+
+void RaycastTriggerLineData::reset(){
+	interactable = 0;
+	timer = 0.0;
+}
+

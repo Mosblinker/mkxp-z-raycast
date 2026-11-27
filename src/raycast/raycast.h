@@ -184,6 +184,35 @@ struct RaycastHit{
 	double dirRad();
 	double dirAngle();
 };
+/**
+
+*/
+class RaycastTriggerLineData{
+	public:
+		RaycastTriggerLineData(Line2D line, int type, int tag, double cooldown = 0.0);
+		RaycastTriggerLineData(double x1, double y1, double x2, double y2, int type, int tag, double cooldown = 0.0);
+		
+		DECL_ATTR(Line, Line2D);
+		DECL_ATTR(X1, double);
+		DECL_ATTR(Y1, double);
+		DECL_ATTR(X2, double);
+		DECL_ATTR(Y2, double);
+		void setLine(double x1, double y1, double x2, double y2);
+		DECL_ATTR(Type, int);
+		DECL_ATTR(Tag, int);
+		DECL_ATTR(Interactable, int);
+		DECL_ATTR(CooldownDuration, double);
+		DECL_ATTR(CooldownTimer, double);
+		
+		void reset();
+	private:
+		Line2D line;
+		int type;
+		int tag;
+		int interactable;
+		double cooldown;
+		double timer;
+};
 
 
 #endif
