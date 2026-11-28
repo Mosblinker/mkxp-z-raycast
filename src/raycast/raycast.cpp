@@ -38,6 +38,42 @@ double radiansToAngle(double r){
 	return floatMod(360.0 + (r * 180.0 / M_PI),360.0);
 }
 
+Bitmap* getMissingTexture(int width, int height){
+	Bitmap *img = new Bitmap(width,height);
+	Vec4 black(0,0,0,255);
+	img->fillRect(0,0,width,height,black);
+	Vec4 magenta(255,0,255,255);
+	int squareW = (int) ceil(width / 8.0);
+	int squareH = (int) ceil(height / 8.0);
+	for (int i = 0; i < 8; i++){
+		int y = i*squareH;
+		if (y >= height)
+			break;
+		for (int x = i % 2; x < 8; x+=2){
+			img->fillRect(x*squareW, y, squareW, squareH, magenta);
+		}
+	}
+	return img;
+}
+
+Vec4 changeBrightness(const Vec4 &color, double brightness, bool hasAlpha){
+	float a = (hasAlpha) ? color.w : 255.0f;
+	if (brightness >= 1.0)
+		return Vec4(color.x, color.y, color.z, a);
+	if (brightness <= 0.0)
+		return Vec4(0,0,0,a);
+	return Vec4(float(color.x*brightness),float(color.y*brightness),float(color.z*brightness),a);
+}
+
+Color changeBrightness(const Color &color, double brightness, bool hasAlpha){
+	double a = (hasAlpha) ? color.alpha : 255.0;
+	if (brightness >= 1.0)
+		return Color(color.red, color.green, color.blue, a);
+	if (brightness <= 0.0)
+		return Color(0.0,0.0,0.0,a);
+	return Color(color.red*brightness,color.green*brightness,color.blue*brightness,a);
+}
+
 Vector2D::Vector2D() : x(0.0), y(0.0) {}
 
 Vector2D::Vector2D(double x, double y) : x(x), y(y) {}
@@ -99,6 +135,16 @@ void Vector2D::rotate(double r){
 	y = x*-s+y*c;
 }
 
+Vec2 rotateVector(const Vec2 &vector, double r){
+	double s = sin(r);
+	double c = cos(r);
+	return Vec2(float(vector.x*c+vector.y*s),float(vector.x*-s+vector.y*c));
+}
+
+Line2D::Line2D(double x1, double y1, double x2, double y2) : x1(x1),y1(y1),x2(x2),y2(y2) {}
+
+Line2D::Line2D(const Line2D &line) : x1(line.x1),y1(line.y1),x2(line.x2),y2(line.y2) {}
+
 void drawLine(Bitmap &bitmap, double x1, double y1, double x2, double y2, const Vec4 &color){
 	if (x2 < x1){
 		double temp = x1;
@@ -130,6 +176,20 @@ void drawLine(Bitmap &bitmap, double x1, double y1, double x2, double y2, const 
 		}
 	}
 }
+
+void drawLine(Bitmap &bitmap, double x1, double y1, double x2, double y2, const Color &color){
+	drawLine(bitmap,x1,y1,x2,y2,Vec4(color.red,color.green,color.blue,color.alpha));
+}
+
+void drawLine(Bitmap &bitmap, const Line2D &line, const Vec4 &color){
+	drawLine(bitmap,line.x1,line.y1,line.x2,line.y2,color);
+}
+
+void drawLine(Bitmap &bitmap, const Line2D &line, const Color &color){
+	drawLine(bitmap,line.x1,line.y1,line.x2,line.y2,color);
+}
+
+
 
 RaycastObject::RaycastObject(double x,double y,double dir,double radius){
 	this -> x = x;
