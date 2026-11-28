@@ -158,6 +158,10 @@ public:
 	void clearRect(int x, int y,
 	               int width, int height);
 	void clearRect(const IntRect &rect);
+	
+	/* Drawing Lines */
+    void drawLine(double x1, double y1, double x2, double y2, const Color &color);
+    void drawLine(const Line2D &line, const Color &color);
 
 	void blur();
 	void radialBlur(int angle, int divisions);

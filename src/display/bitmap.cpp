@@ -2317,6 +2317,45 @@ void Bitmap::clearRect(const IntRect &rect)
     p->onModified();
 }
 
+void Bitmap::drawLine(double x1, double y1, double x2, double y2, const Color &color){
+	if (x2 < x1){
+		double temp = x1;
+        x1 = x2;
+        x2 = temp;
+        temp = y1;
+        y1 = y2;
+        y2 = temp;
+	}
+	double dx = x2 - x1;
+    double dy = y2 - y1;
+    if (dx != 0 || dy != 0){
+    	if (dx == 0)
+    		fillRect(int(x1),int(std::min(y1,y2)),1,int(dy),color.norm);
+    	else if (dy == 0)
+    		fillRect(int(x1),int(y1),int(dx),1,color.norm);
+		else {
+			double x = x1;
+			double y = y1;
+			double step;
+			if (std::abs(dx) >= std::abs(dy))
+				step = std::abs(dx);
+			else
+				step = std::abs(dy);
+			dx /= step;
+			dy /= step;
+			for (double i = 0; i <= step; i+=1){
+				setPixel(int(x),int(y),color);
+				x += dx;
+				y += dy;
+			}
+		}
+    }
+}
+
+void Bitmap::drawLine(const Line2D &line, const Color &color){
+	drawLine(line.x1,line.y1,line.x2,line.y2,color);
+}
+
 void Bitmap::blur()
 {
     guardDisposed();

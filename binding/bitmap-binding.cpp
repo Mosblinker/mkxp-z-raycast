@@ -259,6 +259,37 @@ RB_METHOD_GUARD(bitmapSetPixel) {
 }
 RB_METHOD_GUARD_END
 
+RB_METHOD_GUARD(bitmapDrawLine) {
+	Bitmap *b = getPrivateData<Bitmap>(self);
+	
+	VALUE colorObj;
+    Color *color;
+    
+    if (argc == 2) {
+        VALUE lineObj;
+        Line2D *line;
+        
+        rb_get_args(argc, argv, "oo", &lineObj, &colorObj RB_ARG_END);
+        
+        line = getPrivateDataCheck<Line2D>(lineObj, Line2DType);
+        color = getPrivateDataCheck<Color>(colorObj, ColorType);
+        
+        GFX_GUARD_EXC(b->drawLine(line, color););
+    } else {
+        double x1, y1, x2, y2;
+        
+        rb_get_args(argc, argv, "ffffo", &x1, &y1, &x2, &y2,
+                    &colorObj RB_ARG_END);
+        
+        color = getPrivateDataCheck<Color>(colorObj, ColorType);
+        
+        GFX_GUARD_EXC(b->drawLine(x1, y1, x2, y2, color););
+    }
+    
+    return self;
+}
+RB_METHOD_GUARD_END
+
 RB_METHOD_GUARD(bitmapHueChange) {
     Bitmap *b = getPrivateData<Bitmap>(self);
     
