@@ -28,10 +28,12 @@
 DEF_TYPE(Color);
 DEF_TYPE(Tone);
 DEF_TYPE(Rect);
+DEF_TYPE(Line2D);
 #else
 DEF_ALLOCFUNC(Color);
 DEF_ALLOCFUNC(Tone);
 DEF_ALLOCFUNC(Rect);
+DEF_ALLOCFUNC(Line2D);
 #endif
 
 #define ATTR_RW(Klass, Attr, arg_type, arg_t_s, value_fun)                     \
@@ -67,6 +69,11 @@ ATTR_INT_RW(Rect, Y)
 ATTR_INT_RW(Rect, Width)
 ATTR_INT_RW(Rect, Height)
 
+ATTR_DOUBLE_RW(Line2D, X1)
+ATTR_DOUBLE_RW(Line2D, Y1)
+ATTR_DOUBLE_RW(Line2D, X2)
+ATTR_DOUBLE_RW(Line2D, Y2)
+
 #if RAPI_FULL > 187
 #define EQUAL_FUN(Klass)                                                       \
   RB_METHOD(Klass##Equal) {                                                    \
@@ -96,6 +103,7 @@ ATTR_INT_RW(Rect, Height)
 EQUAL_FUN(Color)
 EQUAL_FUN(Tone)
 EQUAL_FUN(Rect)
+EQUAL_FUN(Line2D)
 
 #define INIT_FUN(Klass, param_type, param_t_s, last_param_def)                 \
   RB_METHOD(Klass##Initialize) {                                               \
@@ -120,6 +128,7 @@ EQUAL_FUN(Rect)
 INIT_FUN(Color, double, "fff|f", 255)
 INIT_FUN(Tone, double, "fff|f", 0)
 INIT_FUN(Rect, int, "iiii", 0)
+INIT_FUN(Line2D, double, "ffff", 0)
 
 #if RAPI_FULL > 187
 #define SET_FUN(Klass, param_type, param_t_s, last_param_def)                  \
@@ -156,6 +165,7 @@ INIT_FUN(Rect, int, "iiii", 0)
 SET_FUN(Color, double, "fff|f", 255)
 SET_FUN(Tone, double, "fff|f", 0)
 SET_FUN(Rect, int, "iiii", 0)
+SET_FUN(Line2D, double, "ffff", 0)
 
 RB_METHOD(rectEmpty) {
   RB_UNUSED_PARAM;
@@ -209,14 +219,17 @@ RB_METHOD(RectStringify) {
 MARSH_LOAD_FUN(Color)
 MARSH_LOAD_FUN(Tone)
 MARSH_LOAD_FUN(Rect)
+MARSH_LOAD_FUN(Line2D)
 
 INITCOPY_FUN(Tone)
 INITCOPY_FUN(Color)
 INITCOPY_FUN(Rect)
+INITCOPY_FUN(Line2D)
 
 CLASS_ALLOCATE_PRE_INIT(Tone, ToneInitialize);
 CLASS_ALLOCATE_PRE_INIT(Color, ColorInitialize);
 CLASS_ALLOCATE_PRE_INIT(Rect, RectInitialize);
+CLASS_ALLOCATE_PRE_INIT(Line2D, RectInitialize);
 
 #define INIT_BIND(Klass)                                                       \
   {                                                                            \
@@ -278,4 +291,11 @@ void etcBindingInit() {
   RB_ATTR_RW(Rect, Width, width);
   RB_ATTR_RW(Rect, Height, height);
   _rb_define_method(klass, "empty", rectEmpty);
+  
+  INIT_BIND(Line2D);
+
+  RB_ATTR_RW(Line2D, X1, x1);
+  RB_ATTR_RW(Line2D, Y1, y1);
+  RB_ATTR_RW(Line2D, X2, x2);
+  RB_ATTR_RW(Line2D, Y2, y2);
 }

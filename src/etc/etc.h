@@ -241,4 +241,40 @@ struct EtcTemps
 	Rect rect;
 };
 
+struct Line2D : public Serializable{
+	
+	double x1;
+	double y1;
+	double x2;
+	double y2;
+	
+	Line2D() : x1(0.0),y1(0.0),x2(0.0),y2(0.0) {}
+	
+	Line2D(double x1, double y1, double x2, double y2);
+	
+	Line2D(const Line2D &line);
+	
+	virtual ~Line2D() {}
+	
+	void setX1(double value);
+	void setY1(double value);
+	void setX2(double value);
+	void setY2(double value);
+	
+	void set(double x1, double y1, double x2, double y2);
+	
+	double getX1() const;
+	double getY1() const;
+	double getX2() const;
+	double getY2() const;
+	
+	bool operator==(const Line2D &o) const;
+	const Line2D &operator=(const Line2D &o);
+	
+	/* Serializable */
+	int serialSize() const;
+	void serialize(char *buffer) const;
+	static Line2D *deserialize(const char *data, int len);
+};
+
 #endif // ETC_H
