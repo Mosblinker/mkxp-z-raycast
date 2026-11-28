@@ -5,6 +5,12 @@
 #include "sharedstate.h"
 #include <cmath>
 
+#if RAPI_FULL > 187
+DEF_TYPE(Line2D);
+#else
+DEF_ALLOCFUNC(Line2D);
+#endif
+
 RB_METHOD(angleToRads){
 	RB_UNUSED_PARAM;
 	
@@ -69,6 +75,17 @@ RB_METHOD(vectorRotate){
 	
 	return out;
 }
+
+ATTR_DOUBLE_RW(Line2D, X1)
+ATTR_DOUBLE_RW(Line2D, Y1)
+ATTR_DOUBLE_RW(Line2D, X2)
+ATTR_DOUBLE_RW(Line2D, Y2)
+
+EQUAL_FUN(Line2D)
+
+INIT_FUN(Line2D, double, "ffff", 0)
+
+SET_FUN(Line2D, double, "ffff", 0)
 
 
 

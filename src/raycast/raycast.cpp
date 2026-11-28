@@ -145,6 +145,49 @@ Line2D::Line2D(double x1, double y1, double x2, double y2) : x1(x1),y1(y1),x2(x2
 
 Line2D::Line2D(const Line2D &line) : x1(line.x1),y1(line.y1),x2(line.x2),y2(line.y2) {}
 
+void Line2D::setX1(double value){
+	x1 = value;
+}
+
+void Line2D::setY1(double value){
+	y1 = value;
+}
+
+void Line2D::setX2(double value){
+	x2 = value;
+}
+
+void Line2D::setY2(double value){
+	y2 = value;
+}
+
+void set(double x1, double y1, double x2, double y2){
+	this -> x1 = x1;
+	this -> y1 = y1;
+	this -> x2 = x2;
+	this -> y2 = y2;
+}
+
+double Line2D::getX1() const{
+	return x1;
+}
+
+double Line2D::getY1() const{
+	return y1;
+}
+
+double Line2D::getX2() const{
+	return x2;
+}
+
+double Line2D::getY2() const{
+	return y2
+}
+
+bool Line2D::operator==(const Line2D &o) const{
+	return x1 == o.x1 && y1 == o.y1 && x2 == o.x2 && y2 == o.y2;
+}
+
 void drawLine(Bitmap &bitmap, double x1, double y1, double x2, double y2, const Vec4 &color){
 	if (x2 < x1){
 		double temp = x1;

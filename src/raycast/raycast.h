@@ -72,6 +72,20 @@ struct Line2D{
 	Line2D(double x1, double y1, double x2, double y2);
 	
 	Line2D(const Line2D &line);
+	
+	void setX1(double value);
+	void setY1(double value);
+	void setX2(double value);
+	void setY2(double value);
+	
+	void set(double x1, double y1, double x2, double y2);
+	
+	double getX1() const;
+	double getY1() const;
+	double getX2() const;
+	double getY2() const;
+	
+	bool operator==(const Line2D &o) const;
 };
 
 void drawLine(Bitmap &bitmap, double x1, double y1, double x2, double y2, const Vec4 &color);
