@@ -21,8 +21,6 @@ double radiansToAngle(double r);
 
 Bitmap* getMissingTexture(int width, int height);
 
-Vec4 changeBrightness(const Vec4 &color, double brightness, bool hasAlpha = false);
-
 Color changeBrightness(const Color &color, double brightness, bool hasAlpha = false);
 
 struct Vector2D{
