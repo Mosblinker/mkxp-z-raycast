@@ -50,19 +50,18 @@ RB_METHOD(vectorRotate){
 	
 	long len = RARRAY_LEN(arr);
 	
-	double x,y;
-	GUARD_EXC(
-		if (len != 2)
-			throw Exception(Exception::ArgumentError, "Array must have two elements");
-		x = rb_ary_entry(arr, 0);
-		y = rb_ary_entry(arr, 1);
-		
-		double s = sin(rad);
-		double c = cos(rad);
-		
-		x = x*c+y*s;
-		y = x*-s+y*c;
-	)
+	if (len != 2){
+		rb_raise(rb_eArgError, "Array must have only two elements");
+	}
+	
+	double x = rb_ary_entry(arr, 0);
+	double y = rb_ary_entry(arr, 1);
+	
+	double s = sin(rad);
+	double c = cos(rad);
+	
+	x = x*c+y*s;
+	y = x*-s+y*c;
 	
 	VALUE out = rb_ary_new_capa(2);
 	rb_ary_push(out,rb_float_new(x));
