@@ -59,14 +59,6 @@ struct Vector2D{
 
 Vec2 rotateVector(const Vec2 &vector, double r);
 
-void drawLine(Bitmap &bitmap, double x1, double y1, double x2, double y2, const Vec4 &color);
-
-void drawLine(Bitmap &bitmap, double x1, double y1, double x2, double y2, const Color &color);
-
-void drawLine(Bitmap &bitmap, const Line2D &line, const Vec4 &color);
-
-void drawLine(Bitmap &bitmap, const Line2D &line, const Color &color);
-
 enum RaycastObjectType{
 	RAYCAST_OBJECT
 };

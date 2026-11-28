@@ -133,52 +133,6 @@ Vec2 rotateVector(const Vec2 &vector, double r){
 	return Vec2(float(vector.x*c+vector.y*s),float(vector.x*-s+vector.y*c));
 }
 
-void drawLine(Bitmap &bitmap, double x1, double y1, double x2, double y2, const Vec4 &color){
-	if (x2 < x1){
-		double temp = x1;
-        x1 = x2;
-        x2 = temp;
-        temp = y1;
-        y1 = y2;
-        y2 = temp;
-	}
-    double dx = x2 - x1;
-    double dy = y2 - y1;
-    if (dx != 0 || dy != 0){
-    	if (dx == 0)
-    		bitmap.fillRect(int(x1),int(std::min(y1,y2)),1,int(dy),color);
-    	else if (dy == 0)
-    		bitmap.fillRect(int(x1),int(y1),int(dx),1,color);
-    	else{
-    		double m = dy/dx;
-    		double y0 = y1;
-    		int x2 = int(ceil(x2));
-    		double y3 = std::max(std::min(y1,y2), 0.0);
-    		double y4 = std::max(std::min(y1,y2), double(bitmap.height()));
-    		for (int x = int(floor(x1)); x1 <= x2; x++){
-    			double y = m * (x - x1) + y1;
-    			int yMin = int(floor(std::max(std::min(y0,y),y3)));
-    			int yMax = int(ceil(std::min(std::max(y0,y), y4)));
-    			bitmap.fillRect(x,yMin,1,std::max(yMax-yMin,1),color);
-			}
-		}
-	}
-}
-
-void drawLine(Bitmap &bitmap, double x1, double y1, double x2, double y2, const Color &color){
-	drawLine(bitmap,x1,y1,x2,y2,Vec4(color.red,color.green,color.blue,color.alpha));
-}
-
-void drawLine(Bitmap &bitmap, const Line2D &line, const Vec4 &color){
-	drawLine(bitmap,line.x1,line.y1,line.x2,line.y2,color);
-}
-
-void drawLine(Bitmap &bitmap, const Line2D &line, const Color &color){
-	drawLine(bitmap,line.x1,line.y1,line.x2,line.y2,color);
-}
-
-
-
 RaycastObject::RaycastObject(double x,double y,double dir,double radius){
 	this -> x = x;
 	this -> y = y;
