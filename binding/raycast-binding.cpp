@@ -5,7 +5,6 @@
 #include "sharedstate.h"
 #include <cmath>
 
-
 RB_METHOD(angleToRads){
 	RB_UNUSED_PARAM;
 	
