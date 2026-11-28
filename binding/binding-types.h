@@ -30,6 +30,7 @@ DECL_TYPE(Rect);
 DECL_TYPE(Color);
 DECL_TYPE(Tone);
 DECL_TYPE(Font);
+DECL_TYPE(Line2D);
 
 DECL_TYPE(Bitmap);
 DECL_TYPE(Sprite);
@@ -46,6 +47,7 @@ DECL_TYPE(MiniFFI);
 #define ColorType "Color"
 #define ToneType "Tone"
 #define FontType "Font"
+#define Line2DType "Line2D"
 
 #define BitmapType "Bitmap"
 #define SpriteType "Sprite"

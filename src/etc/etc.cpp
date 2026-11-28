@@ -425,7 +425,7 @@ void Line2D::setY2(double value){
 	y2 = value;
 }
 
-void set(double x1, double y1, double x2, double y2){
+void Line2D::set(double x1, double y1, double x2, double y2){
 	this -> x1 = x1;
 	this -> y1 = y1;
 	this -> x2 = x2;
@@ -445,7 +445,7 @@ double Line2D::getX2() const{
 }
 
 double Line2D::getY2() const{
-	return y2
+	return y2;
 }
 
 bool Line2D::operator==(const Line2D &o) const{

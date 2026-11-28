@@ -216,6 +216,19 @@ RB_METHOD(RectStringify) {
 #endif
 }
 
+RB_METHOD(Line2DStringify) {
+  RB_UNUSED_PARAM;
+
+  Line2D *l = getPrivateData<Line2D>(self);
+#if RAPI_FULL > 187
+  return rb_sprintf("((%f, %f), (%f, %f))", l->x1, l->y1, l->x2, l->y2);
+#else
+  char buf[50] = {0};
+  sprintf((char *)&buf, "((%f, %f), (%f, %f))", l->x1, l->y1, l->x2, l->y2);
+  return rb_str_new2(buf);
+#endif
+}
+
 MARSH_LOAD_FUN(Color)
 MARSH_LOAD_FUN(Tone)
 MARSH_LOAD_FUN(Rect)
