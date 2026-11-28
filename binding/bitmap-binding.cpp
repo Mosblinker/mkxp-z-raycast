@@ -264,26 +264,27 @@ RB_METHOD_GUARD(bitmapDrawLine) {
 	
 	VALUE colorObj;
     Color *color;
+    bool antialiased = false;
     
-    if (argc == 2) {
+    if (argc == 2 || argc == 3) {
         VALUE lineObj;
         Line2D *line;
         
-        rb_get_args(argc, argv, "oo", &lineObj, &colorObj RB_ARG_END);
+        rb_get_args(argc, argv, "oo|b", &lineObj, &colorObj, &antialiased RB_ARG_END);
         
         line = getPrivateDataCheck<Line2D>(lineObj, Line2DType);
         color = getPrivateDataCheck<Color>(colorObj, ColorType);
         
-        GFX_GUARD_EXC(b->drawLine(line, color););
+        GFX_GUARD_EXC(b->drawLine(*line, *color, antialiased););
     } else {
         double x1, y1, x2, y2;
         
-        rb_get_args(argc, argv, "ffffo", &x1, &y1, &x2, &y2,
-                    &colorObj RB_ARG_END);
+        rb_get_args(argc, argv, "ffffo|b", &x1, &y1, &x2, &y2,
+                    &colorObj, &antialiased RB_ARG_END);
         
         color = getPrivateDataCheck<Color>(colorObj, ColorType);
         
-        GFX_GUARD_EXC(b->drawLine(x1, y1, x2, y2, color););
+        GFX_GUARD_EXC(b->drawLine(x1, y1, x2, y2, *color, antialiased););
     }
     
     return self;
@@ -973,6 +974,7 @@ void bitmapBindingInit() {
     _rb_define_method(klass, "hue_change", bitmapHueChange);
     _rb_define_method(klass, "draw_text", bitmapDrawText);
     _rb_define_method(klass, "text_size", bitmapTextSize);
+    _rb_define_method(klass, "draw_line", bitmapDrawLine);
     
     _rb_define_method(klass, "raw_data", bitmapGetRawData);
     _rb_define_method(klass, "raw_data=", bitmapSetRawData);

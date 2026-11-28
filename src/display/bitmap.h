@@ -160,8 +160,8 @@ public:
 	void clearRect(const IntRect &rect);
 	
 	/* Drawing Lines */
-    void drawLine(double x1, double y1, double x2, double y2, const Color &color);
-    void drawLine(const Line2D &line, const Color &color);
+    void drawLine(double x1, double y1, double x2, double y2, const Color &color, bool antialiased = false);
+    void drawLine(const Line2D &line, const Color &color, bool antialiased = false);
 
 	void blur();
 	void radialBlur(int angle, int divisions);
@@ -262,6 +262,11 @@ private:
 	BitmapPrivate *p;
 
 	void loresDisposal();
+	
+	/* Drawing antialiased stuff */
+	void drawAntialiasedPixel(int x, int y, const Color &color, double v);
+	int roundNumber(double x);
+	double fractionPart(double x);
 };
 
 #endif // BITMAP_H

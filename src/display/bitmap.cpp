@@ -2317,43 +2317,121 @@ void Bitmap::clearRect(const IntRect &rect)
     p->onModified();
 }
 
-void Bitmap::drawLine(double x1, double y1, double x2, double y2, const Color &color){
-	if (x2 < x1){
-		double temp = x1;
-        x1 = x2;
-        x2 = temp;
-        temp = y1;
-        y1 = y2;
-        y2 = temp;
-	}
-	double dx = x2 - x1;
-    double dy = y2 - y1;
-    if (dx != 0 || dy != 0){
-    	if (dx == 0)
-    		fillRect(int(x1),int(std::min(y1,y2)),1,int(dy),color.norm);
-    	else if (dy == 0)
-    		fillRect(int(x1),int(y1),int(dx),1,color.norm);
-		else {
-			double x = x1;
-			double y = y1;
-			double step;
-			if (std::abs(dx) >= std::abs(dy))
-				step = std::abs(dx);
-			else
-				step = std::abs(dy);
-			dx /= step;
-			dy /= step;
-			for (double i = 0; i <= step; i+=1){
-				setPixel(int(x),int(y),color);
-				x += dx;
-				y += dy;
+void Bitmap::drawAntialiasedPixel(int x, int y, const Color &color, double v){
+	if (v >= 1 && color.alpha == 255)
+		setPixel(x,y,color);
+	else if (v > 0 && color.alpha > 0){
+		Color oldColor = getPixel(x,y);
+		if (oldColor.alpha > 0){
+			// Blend the two colors
+			double a1 = oldColor.alpha / 255.0;
+			double a2 = (color.alpha / 255.0) * v;
+			
+			double w1 = a1 * (1 - a2);
+			
+			double ao = a2 + w1;
+			if (ao <= 0){
+				setPixel(x,y,Color(0,0,0,0));
+			} else {
+				setPixel(x,y,Color(
+					(color.red*a2 + oldColor.red*w1)/ao,
+					(color.green*a2 + oldColor.green*w1)/ao,
+					(color.blue*a2 + oldColor.blue*w1)/ao,
+					ao * 255.0));
 			}
+		} else {
+			setPixel(x,y,Color(color.red,color.green,color.blue,v*255.0));
 		}
-    }
+	}
 }
 
-void Bitmap::drawLine(const Line2D &line, const Color &color){
-	drawLine(line.x1,line.y1,line.x2,line.y2,color);
+int Bitmap::roundNumber(double x){
+	return (int) (x+0.5);
+}
+
+double Bitmap::fractionPart(double x){
+	if (x > 0)
+		return x - ((int) x);
+	else
+		return x - (((int) x) + 1);
+}
+
+void Bitmap::drawLine(double x1, double y1, double x2, double y2, const Color &color, bool antialiased){
+	if (antialiased) {
+		// Implement Xiaolin Wu's line algorithm
+		bool steep = std::abs(y2-y1) > std::abs(x2-x1);
+		if (steep){
+			double temp = x1;
+	        x1 = y1;
+	        y1 = temp;
+	        temp = x2;
+	        x2 = y2;
+	        y2 = temp;
+		}
+		if (x2 < x1){
+			double temp = x1;
+	        x1 = x2;
+	        x2 = temp;
+	        temp = y1;
+	        y1 = y2;
+	        y2 = temp;
+		}
+		double dx = x2 - x1;
+	    double dy = y2 - y1;
+		double m = (dx == 0.0) ? 1 : dy / dx;
+		int xp1 = int(x1);
+		int xp2 = int(x2);
+		double intersectY = y1;
+		for (int x = xp1; x <= xp2; x++){
+			int y = (int) intersectY;
+			double yf = fractionPart(intersectY);
+			if (steep){
+				drawAntialiasedPixel(y, x, color, yf);
+				drawAntialiasedPixel(y-1, x, color, 1-yf);
+			} else {
+				drawAntialiasedPixel(x, y, color, yf);
+				drawAntialiasedPixel(x, y-1, color, 1-yf);
+			}
+			intersectY += m;
+		}
+	} else {
+		if (x2 < x1){
+			double temp = x1;
+	        x1 = x2;
+	        x2 = temp;
+	        temp = y1;
+	        y1 = y2;
+	        y2 = temp;
+		}
+		double dx = x2 - x1;
+	    double dy = y2 - y1;
+	    if (dx != 0 || dy != 0){
+	    	if (dx == 0)
+	    		fillRect(int(x1),int(std::min(y1,y2)),1,int(dy),color.norm);
+	    	else if (dy == 0)
+	    		fillRect(int(x1),int(y1),int(dx),1,color.norm);
+			else {
+				double x = x1;
+				double y = y1;
+				double step;
+				if (std::abs(dx) >= std::abs(dy))
+					step = std::abs(dx);
+				else
+					step = std::abs(dy);
+				dx /= step;
+				dy /= step;
+				for (double i = 0; i <= step; i+=1){
+					setPixel(int(x),int(y),color);
+					x += dx;
+					y += dy;
+				}
+			}
+	    }
+	}
+}
+
+void Bitmap::drawLine(const Line2D &line, const Color &color, bool antialiased){
+	drawLine(line.x1,line.y1,line.x2,line.y2,color,antialiased);
 }
 
 void Bitmap::blur()
